@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="BobaBud: the fully automated boba tea machine. Fresh boba in 60 seconds.">
+<title>BobaBud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@500;600;700&family=Inter:wght@400;700&display=swap">
+<style>
+/* Layout: BobaBud brand rebuild — fixed purple nav, rounded purple hero, centered 887px sections, purple partner panel, marquee gallery. Single brand theme by design. */
+:root{
+  --purple:#8F37EE; --purple-2:#923CF6; --lilac:#C582FF; --orange:#F8AC38;
+  --orange-soft:rgba(247,171,57,.2); --ink:#000; --white:#fff; --chip:#F4F7F9;
+  --step:#F0F0F0; --muted:#6b6b72; --page:#fff;
+  --display:"Darker Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --ui:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --gutter:clamp(16px,5vw,50px); --nav-h:72px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 16px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--display);font-weight:500;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+h1,h2,h3,p{margin:0}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:6px}
+
+/* ---------- Logo ---------- */
+.logo{display:inline-flex;align-items:center;gap:7px;color:var(--white);font-size:27px;font-weight:600;letter-spacing:-1px;line-height:1}
+.logo .mark{display:grid;grid-template-columns:repeat(3,3.5px);gap:1.5px;}
+.logo .mark i{width:3.5px;height:3.5px;border-radius:50%;background:currentColor;opacity:.85}
+.logo .mark i:nth-child(n+10){background:var(--orange);opacity:1}
+.logo.dark{color:#222}
+.logo.dark .mark i{background:var(--lilac)}
+.logo.dark .mark i:nth-child(n+10){background:var(--orange)}
+
+/* ---------- Nav ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;background:var(--purple);padding-top:env(safe-area-inset-top,0px)}
+.nav-in{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding-inline:var(--gutter);max-width:1200px;margin-inline:auto}
+.nav-links{display:flex;align-items:center;gap:20px}
+.nav-links a.link{color:var(--white);font-size:18px;letter-spacing:-.72px;position:relative;padding-block:4px;transition:opacity .2s}
+.nav-links a.link::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--orange);border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.nav-links a.link:hover::after,.nav-links a.link.active::after{transform:scaleX(1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--orange);color:var(--white);border:0;border-radius:30px;font-family:var(--display);font-weight:500;font-size:18px;letter-spacing:-.72px;height:44px;padding-inline:12px;cursor:pointer;transition:border-radius .3s ease,opacity .2s}
+.btn:hover{border-radius:10px}
+.btn:active{opacity:.9}
+.burger{display:none;width:44px;height:44px;border:0;background:transparent;cursor:pointer;color:var(--white);font:500 18px var(--display);align-items:center;gap:8px}
+.burger .bars{width:22px;height:14px;position:relative}
+.burger .bars i{position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:2px;transition:transform .3s,opacity .3s,top .3s}
+.burger .bars i:nth-child(1){top:0}.burger .bars i:nth-child(2){top:6px}.burger .bars i:nth-child(3){top:12px}
+.nav.open .burger .bars i:nth-child(1){top:6px;transform:rotate(45deg)}
+.nav.open .burger .bars i:nth-child(2){opacity:0}
+.nav.open .burger .bars i:nth-child(3){top:6px;transform:rotate(-45deg)}
+.mobile-menu{display:none}
+
+/* ---------- Hero ---------- */
+.hero{background:var(--purple);border-radius:0 0 50px 50px;padding-top:calc(var(--nav-h) + 28px);position:relative;overflow:hidden;text-align:center}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:280px;background:linear-gradient(rgba(146,60,246,0),rgba(146,60,246,.2));pointer-events:none}
+.hero-copy{padding-inline:var(--gutter);display:flex;flex-direction:column;align-items:center;gap:20px}
+.hero h1{color:var(--white);font-size:clamp(34px,5.4vw,48px);line-height:1.1;letter-spacing:-.04em;font-weight:500;text-wrap:balance}
+.hero h1 .boba{display:inline-block;animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-6deg)}}
+.hero p{color:var(--white);font-size:18px;letter-spacing:-.72px}
+.hero .btn{margin-top:20px;padding-inline:12px}
+.hero-img{margin:50px auto 0;width:min(636px,100%);aspect-ratio:636/461;max-width:100%;position:relative;z-index:1}
+.hero-img .art{height:100%;display:flex;align-items:flex-end;justify-content:center}
+
+/* ---------- Section scaffolding ---------- */
+.section{max-width:987px;margin-inline:auto;padding:50px var(--gutter)}
+.eyebrow{display:block;width:max-content;margin:0 auto;background:var(--chip);color:var(--purple-2);font-size:16px;letter-spacing:-.32px;line-height:22px;padding:0 4px;text-transform:uppercase}
+.h2{font-weight:500;font-size:clamp(36px,5vw,48px);line-height:1.1;letter-spacing:-.04em;text-align:center;margin-top:14px;text-wrap:balance}
+
+/* ---------- Menu cards ---------- */
+.menu-list{display:flex;flex-direction:column;gap:20px;margin-top:20px}
+.drink{position:relative;height:416px;border-radius:24px;overflow:hidden;background:#3a145f;isolation:isolate}
+.drink .media{position:absolute;inset:0;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.drink:hover .media{transform:scale(1.05)}
+.drink .overlay{position:absolute;inset:0;background:rgba(0,0,0,.2);transition:background .4s}
+.drink:hover .overlay{background:linear-gradient(180deg,rgba(0,0,0,.05) 30%,rgba(0,0,0,.45))}
+.drink .top{position:absolute;left:32px;right:32px;bottom:32px;color:var(--white);display:flex;flex-direction:column;gap:11px;z-index:2;transition:transform .4s}
+.drink:hover .top{transform:translateY(-6px)}
+.drink h3{font-size:28px;letter-spacing:-1.12px;line-height:1.2;font-weight:500}
+.drink p{font-size:18px;letter-spacing:-.72px;line-height:1.2;text-wrap:pretty}
+
+/* ---------- Features ---------- */
+.feature-stage{position:relative;width:min(710px,100%);aspect-ratio:710/396;margin:50px auto 0;border-radius:20px;overflow:hidden;background:radial-gradient(120% 100% at 50% 40%,#fbfbfb,#e7e7ea)}
+.feature-stage .art{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:5%}
+.badge{position:absolute;background:rgba(54,54,54,.41);color:var(--white);border-radius:15px;padding:10px 16px;font-size:16px;letter-spacing:-.32px;line-height:1.2;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);white-space:nowrap;cursor:default;transition:background .25s,transform .25s;animation:float 4s ease-in-out infinite;transform:rotate(var(--r))}
+.badge:hover{background:rgba(143,55,238,.85);animation-play-state:paused;transform:rotate(0) scale(1.08)}
+@keyframes float{50%{transform:rotate(var(--r)) translateY(-6px)}}
+.b-tall{left:33%;top:12%;--r:4deg;animation-delay:-1s}
+.b-ui{left:28%;top:40%;--r:-5deg;animation-delay:-2s}
+.b-pay{left:58%;top:29%;--r:-3deg;animation-delay:-.5s}
+.b-60{left:52%;top:68%;--r:-8deg;animation-delay:-3s}
+
+/* ---------- How it works ---------- */
+.hiw-img{position:relative;width:min(520px,100%);aspect-ratio:520/400;margin:50px auto 0;border-radius:20px;overflow:hidden;background:#1a1a1a}
+.hiw-img .slide{position:absolute;inset:0;opacity:0;transform:scale(1.04);transition:opacity .45s ease,transform .6s ease}
+.hiw-img .slide.on{opacity:1;transform:none}
+.steps{position:relative;width:min(440px,100%);margin:20px auto 0;display:flex;flex-direction:column}
+.steps .pill{position:absolute;left:0;right:0;height:50px;background:var(--step);border-radius:20px;transition:transform .35s cubic-bezier(.3,.8,.3,1);z-index:0}
+.step{position:relative;z-index:1;height:50px;display:flex;align-items:center;padding-inline:10px;font:500 28px/1.2 var(--display);letter-spacing:-1.12px;background:none;border:0;text-align:left;cursor:pointer;color:var(--ink);border-radius:20px;opacity:.85;transition:opacity .2s}
+.step.on,.step:hover{opacity:1}
+
+/* ---------- Partner ---------- */
+.marquee{overflow:hidden;margin-top:28px;padding-block:14px;-webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.track{display:flex;gap:10px;width:max-content;animation:scroll 40s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.place{background:var(--orange-soft);color:var(--orange);border-radius:50px;padding:4px 8px;font-size:16px;letter-spacing:-.32px;white-space:nowrap;transform:rotate(var(--r,0deg));transition:transform .25s,background .25s,color .25s;cursor:default}
+.place:hover{transform:rotate(0) scale(1.1);background:var(--orange);color:var(--white)}
+.panel{background:var(--purple-2);border-radius:20px;padding:50px;margin:24px auto 0;max-width:939px;display:grid;grid-template-columns:357px 1fr;gap:50px;color:var(--white)}
+.panel h2{font-size:28px;letter-spacing:-1.12px;line-height:1.2;font-weight:500;grid-column:1/-1;max-width:330px;text-wrap:balance;margin-bottom:-20px}
+.form{display:flex;flex-direction:column;gap:12px;padding-inline:15px;font-family:var(--ui)}
+.form label.f{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700}
+.form input[type=text],.form input[type=email],.form input[type=tel]{height:43px;border-radius:10px;border:1px solid #ccc;background:#fff;padding:0 12px;font:14px var(--ui);color:#333;transition:border-color .2s,box-shadow .2s}
+.form input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(248,172,56,.35)}
+.form input.err{border-color:#ff5a5a;box-shadow:0 0 0 3px rgba(255,90,90,.3)}
+.check{display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer;margin-top:4px}
+.check input{appearance:none;width:14px;height:14px;border-radius:3px;background:#fff;border:1px solid #ccc;display:grid;place-items:center;cursor:pointer;margin:0}
+.check input:checked{background:var(--orange);border-color:var(--orange)}
+.check input:checked::after{content:"";width:4px;height:7px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.form .btn{width:100%;height:40px;font:700 14px var(--ui);letter-spacing:0;margin-top:8px}
+.form .msg{font-size:13px;min-height:18px}
+.thanks{display:none;flex-direction:column;gap:10px;padding:24px;border-radius:14px;background:rgba(255,255,255,.12);font-family:var(--ui)}
+.thanks strong{font:700 24px var(--display);letter-spacing:-.6px}
+.form.sent>*:not(.thanks){display:none}
+.form.sent .thanks{display:flex}
+.faqs{display:flex;flex-direction:column;gap:15px;min-width:0;align-self:start}
+.faq{border:1px solid rgba(255,255,255,.5);border-radius:8px;transition:background .3s,border-color .3s}
+.faq:hover{background:rgba(255,255,255,.08)}
+.faq.open{background:var(--lilac);border-color:var(--lilac)}
+.faq button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;background:none;border:0;color:var(--white);cursor:pointer;text-align:left;font:700 20px/1.15 var(--display);letter-spacing:-.8px;border-radius:8px}
+.faq .ico{width:12px;height:12px;position:relative;flex:none;transition:transform .3s}
+.faq .ico::before,.faq .ico::after{content:"";position:absolute;background:currentColor;left:50%;top:50%;border-radius:1px}
+.faq .ico::before{width:12px;height:1.5px;transform:translate(-50%,-50%)}
+.faq .ico::after{width:1.5px;height:12px;transform:translate(-50%,-50%)}
+.faq.open .ico{transform:rotate(45deg)}
+.faq .ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.faq.open .ans{grid-template-rows:1fr}
+.faq .ans>div{overflow:hidden}
+.faq .ans p{padding:0 16px 16px;font:400 14px/1.6 var(--ui);max-width:80%}
+
+/* ---------- Sneak peek ---------- */
+.peek{padding-block:50px 60px;overflow:hidden}
+.rows{display:flex;flex-direction:column;gap:23px;margin-top:66px}
+.row{display:flex;gap:20px;width:max-content;animation:scroll 50s linear infinite}
+.row.rev{animation-direction:reverse;animation-duration:58s}
+.row.slow{animation-duration:64s}
+.rows:hover .row{animation-play-state:paused}
+.tile{width:280px;height:160px;border-radius:16px;overflow:hidden;flex:none;position:relative;transition:transform .35s ease,box-shadow .35s ease}
+.tile:hover{transform:scale(1.05);box-shadow:0 14px 30px rgba(0,0,0,.18);z-index:2}
+.tile .art{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center}
+
+/* ---------- Footer ---------- */
+footer{background:#fff;padding:64px var(--gutter) 48px}
+.foot{max-width:841px;margin:0 auto;display:flex;flex-direction:column;gap:58px}
+.foot-cols{display:grid;grid-template-columns:1fr 1fr;gap:19px}
+.foot h4{margin:0 0 10px;font-size:18px;font-weight:500;letter-spacing:-.72px}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.foot ul a{color:var(--muted);font-size:18px;letter-spacing:-.72px;transition:color .2s,padding-left .2s}
+.foot ul a:hover{color:var(--purple);padding-left:4px}
+.copy{color:var(--muted);font-size:13px;line-height:1.4;font-family:var(--display)}
+
+/* ---------- Illustrations (stand-ins until real photos are supplied) ---------- */
+.photo{width:100%;height:100%;object-fit:cover}
+.machine{--w:200px;width:var(--w);aspect-ratio:.56;position:relative;background:linear-gradient(90deg,#d9d9de,#f7f7f9 30%,#efeff2 70%,#cfcfd5);border-radius:calc(var(--w)*.04) calc(var(--w)*.04) 2px 2px;box-shadow:0 30px 40px -20px rgba(0,0,0,.35)}
+.machine::after{content:"";position:absolute;left:4%;right:4%;bottom:-3%;height:3%;background:#bdbdc4;border-radius:0 0 4px 4px}
+.machine .screen{position:absolute;left:8%;right:8%;top:5%;height:33%;background:#151515;border-radius:6px;padding:4%}
+.machine .screen .ui{width:100%;height:100%;background:#fff;border-radius:3px;display:grid;grid-template-columns:40% 1fr;gap:6%;padding:6%}
+.machine .screen .ui .c{background:linear-gradient(#e7cdb0,#c89a6c);border-radius:2px 2px 4px 4px;clip-path:polygon(8% 0,92% 0,80% 100%,20% 100%)}
+.machine .screen .ui .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8%;align-content:center}
+.machine .screen .ui .opts i{height:calc(var(--w)*.025);border-radius:9px;background:#f5b13f}
+.machine .screen .ui .opts i:nth-child(3n){background:#a0a0a6}
+.machine .screen .ui .opts i:last-child{background:var(--purple)}
+.machine .seam{position:absolute;left:0;right:0;top:52%;height:1px;background:#c9c9cf}
+.machine .bay{position:absolute;left:12%;right:12%;top:62%;height:24%;background:linear-gradient(#0d0d0d,#2a2a2a);border-radius:6px;box-shadow:inset 0 0 0 calc(var(--w)*.02) #ececef;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6%}
+.machine .bay .cup{--cw:calc(var(--w)*.18)}
+.machine .knob{position:absolute;right:5%;top:70%;width:3%;height:8%;border-radius:4px;background:#bbb}
+.cup{--cw:120px;--tea:#c9a184;width:var(--cw);aspect-ratio:.72;position:relative}
+.cup .body{position:absolute;inset:8% 0 0 0;clip-path:polygon(0 0,100% 0,86% 100%,14% 100%);background:linear-gradient(90deg,rgba(255,255,255,.25),transparent 30%,transparent 70%,rgba(0,0,0,.15)),var(--tea)}
+.cup .body::after{content:"";position:absolute;left:0;right:0;bottom:0;height:24%;background:radial-gradient(circle at 20% 60%,#1c120c 0 9%,transparent 10%),radial-gradient(circle at 42% 70%,#26170e 0 9%,transparent 10%),radial-gradient(circle at 63% 55%,#1c120c 0 9%,transparent 10%),radial-gradient(circle at 82% 72%,#26170e 0 8%,transparent 9%),radial-gradient(circle at 32% 30%,#2b1a10 0 8%,transparent 9%),radial-gradient(circle at 72% 30%,#2b1a10 0 8%,transparent 9%);opacity:.95}
+.cup .lid{position:absolute;left:-4%;right:-4%;top:2%;height:10%;border-radius:50%;background:rgba(255,255,255,.55);box-shadow:inset 0 -2px 0 rgba(0,0,0,.08)}
+.cup .dots{position:absolute;left:50%;top:36%;transform:translateX(-50%);display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--cw)*.025)}
+.cup .dots i{width:calc(var(--cw)*.05);aspect-ratio:1;border-radius:50%;background:rgba(197,130,255,.9)}
+.cup .dots i:nth-child(n+7){background:rgba(248,172,56,.95)}
+.cup .word{position:absolute;left:0;right:0;top:62%;text-align:center;color:rgba(255,255,255,.85);font:600 calc(var(--cw)*.17) var(--display);letter-spacing:-.04em}
+.cup.straw::before{content:"";position:absolute;left:58%;top:-28%;width:7%;height:50%;background:rgba(255,255,255,.75);transform:rotate(12deg);border-radius:3px}
+.cup.brown{--tea:linear-gradient(180deg,#e9d8c6 0,#d9b892 40%,#8a4f22 70%,#5a2f12)}
+.cup.taro{--tea:#c7b1df}
+.cup.passion{--tea:linear-gradient(180deg,#f7b955,#ef8f1f)}
+.cup.passion .body::after{background:radial-gradient(circle at 25% 40%,#2a1608 0 5%,transparent 6%),radial-gradient(circle at 60% 25%,#2a1608 0 5%,transparent 6%),radial-gradient(circle at 75% 65%,#2a1608 0 5%,transparent 6%),radial-gradient(circle at 40% 80%,#2a1608 0 5%,transparent 6%);height:80%}
+.drink .art{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;background:radial-gradient(70% 90% at 50% 30%,#5a2a8c,#2d0f4d)}
+.drink .art .cup{--cw:min(300px,52vw);margin-top:6%}
+/* step scenes */
+.scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.scene.tap{background:linear-gradient(120deg,#e9e9ec 55%,#111 55%)}
+.scene.tap .machine{--w:340px;transform:rotate(-8deg) translate(-12%,18%)}
+.scene.tap .finger{position:absolute;right:16%;top:34%;width:110px;height:34px;background:linear-gradient(#f0c8a8,#d9a27f);border-radius:20px 40px 40px 20px;transform:rotate(-35deg);animation:tap 1.6s ease-in-out infinite}
+@keyframes tap{50%{transform:rotate(-35deg) translateX(-10px)}}
+.scene.pour{background:radial-gradient(80% 70% at 50% 70%,#3b3b3b,#0e0e0e)}
+.scene.pour .glass{position:absolute;bottom:-10%;width:62%;height:70%;border:3px solid rgba(255,255,255,.25);border-top:0;border-radius:0 0 30px 30px;background:linear-gradient(90deg,rgba(255,255,255,.08),transparent)}
+.scene.pour .pearl{position:absolute;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7a4a2a,#2a140a 60%);top:-40px;animation:drop 1.8s cubic-bezier(.5,0,1,1) infinite}
+@keyframes drop{to{transform:translateY(420px)}}
+.scene.pour .pile{position:absolute;bottom:0;width:55%;height:24%;background:radial-gradient(circle at 15% 50%,#2a140a 0 12%,transparent 13%),radial-gradient(circle at 35% 30%,#3a1d0d 0 12%,transparent 13%),radial-gradient(circle at 55% 55%,#2a140a 0 12%,transparent 13%),radial-gradient(circle at 75% 35%,#3a1d0d 0 12%,transparent 13%),radial-gradient(circle at 90% 60%,#2a140a 0 10%,transparent 11%),radial-gradient(circle at 45% 85%,#3a1d0d 0 12%,transparent 13%)}
+.scene.grab{background:linear-gradient(#f4f4f6,#dcdce0)}
+.scene.grab .win{width:72%;height:62%;border-radius:22px;background:linear-gradient(#0e0e0e,#2d2d2d);box-shadow:inset 0 0 0 14px #ededf0,0 10px 30px rgba(0,0,0,.15);display:flex;align-items:flex-end;justify-content:center;padding-bottom:7%}
+.scene.grab .win .cup{--cw:96px;animation:slide 2.4s ease-in-out infinite}
+@keyframes slide{50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* ---------- Responsive ---------- */
+@media (max-width:860px){
+  .panel{grid-template-columns:1fr;padding:36px 24px;gap:32px}
+  .panel h2{margin-bottom:0}
+  .form{padding-inline:0}
+  .drink{height:340px}
+}
+@media (max-width:720px){
+  .nav-links{display:none}
+  .burger{display:inline-flex}
+  .mobile-menu{display:flex;flex-direction:column;gap:4px;padding:0 var(--gutter);max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;background:var(--purple)}
+  .nav.open .mobile-menu{max-height:320px;padding-block:8px 20px}
+  .mobile-menu a{color:var(--white);font-size:26px;letter-spacing:-1px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.15);opacity:0;transform:translateY(-6px);transition:opacity .3s,transform .3s}
+  .nav.open .mobile-menu a{opacity:1;transform:none}
+  .nav.open .mobile-menu a:nth-child(2){transition-delay:.05s}
+  .nav.open .mobile-menu a:nth-child(3){transition-delay:.1s}
+  .mobile-menu .btn{margin-top:12px;height:48px;font-size:20px}
+  .hero{border-radius:0 0 32px 32px}
+  .drink{height:300px}
+  .drink .top{left:20px;right:20px;bottom:20px}
+  .drink h3{font-size:24px}
+  .drink p{font-size:16px}
+  .badge{font-size:13px;padding:6px 10px;border-radius:11px}
+  .step{font-size:22px}
+  .tile{width:220px;height:126px}
+  .faq .ans p{max-width:none}
+  .foot ul a{font-size:17px}
+}
+
+.logo-img{height:27px;width:auto;display:block;transition:opacity .2s}
+.nav-logo{filter:brightness(0) invert(1)}
+.logo:hover .logo-img{opacity:.85}
+footer .logo-img{height:22px}
+.hero-img{height:461px;aspect-ratio:auto;width:min(826px,100%);overflow:hidden}
+.hero-img .photo{object-position:50% 40%}
+.drink .media .photo{object-position:50% 0}
+.feature-stage .art .photo,.feature-stage>[data-img] .photo{position:absolute;inset:0}
+.feature-stage .art:has(.photo){padding:0}
+@media (max-width:720px){.hero-img{height:auto;aspect-ratio:636/461}}
+.btn{padding-bottom:3px}
+.form,.faq .ans p,.thanks{font-family:var(--display)}
+.form label.f{font-size:17px;font-weight:600;letter-spacing:-.3px}
+.form input[type=text],.form input[type=email],.form input[type=tel]{font:500 17px var(--display);letter-spacing:-.3px}
+.check{font-size:15px;letter-spacing:-.2px}
+.form .btn{font:600 18px var(--display);letter-spacing:-.5px}
+.form .msg{font-size:15px}
+.faq .ans p{font:500 17px/1.35 var(--display);letter-spacing:-.3px}
+.burger{justify-content:center;margin-right:-10px}
+.burger .bars{width:24px;height:16px}
+.burger .bars i{height:2.5px}
+.burger .bars i:nth-child(2){top:7px}.burger .bars i:nth-child(3){top:14px}
+.nav.open .burger .bars i:nth-child(1),.nav.open .burger .bars i:nth-child(3){top:7px}
+</style>
+
+</head>
+<body>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="logo" aria-label="BobaBud home"><img src="img/logo-grey.png" alt="bobabud" class="logo-img nav-logo" width="116" height="27"></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a class="link" href="#menu">Menu</a>
+      <a class="link" href="#features">Features</a>
+      <a class="link" href="#how">How It Works</a>
+      <a class="btn" href="#partner">Partner</a>
+    </nav>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="mm" aria-label="Open menu"><span class="bars"><i></i><i></i><i></i></span></button>
+  </div>
+  <div class="mobile-menu" id="mm">
+    <a href="#menu">Menu</a>
+    <a href="#features">Features</a>
+    <a href="#how">How It Works</a>
+    <a class="btn" href="#partner">Partner with Us</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>No lines. Zero baristas.<br>Fresh boba <span class="boba">🧋</span> in 60 seconds</h1>
+      <p>The fully automated boba tea machine</p>
+      <a class="btn" href="#partner">Partner with Us!</a>
+    </div>
+    <div class="hero-img" data-img="hero"><div class="art"><div class="machine" style="--w:min(250px,42vw)"></div></div></div>
+  </section>
+
+  <section class="section" id="menu">
+    <span class="eyebrow">Menu</span>
+    <h2 class="h2">Find your match.</h2>
+    <div class="menu-list">
+      <article class="drink"><div class="media" data-img="menu1"><div class="art"><div class="cup"></div></div></div><div class="overlay"></div>
+        <div class="top"><h3>Pearl Milk Tea</h3><p>A sweet, creamy drink made with brewed tea, milk, sweetener, and chewy tapioca pearls</p></div></article>
+      <article class="drink"><div class="media" data-img="menu2"><div class="art"><div class="cup brown"></div></div></div><div class="overlay"></div>
+        <div class="top"><h3>Brown Sugar Milk Tea</h3><p>A rich, creamy iced drink made with warm, caramel-flavored brown sugar syrup, chewy tapioca pearls, and fresh milk</p></div></article>
+      <article class="drink"><div class="media" data-img="menu3"><div class="art"><div class="cup passion"></div></div></div><div class="overlay"></div>
+        <div class="top"><h3>Passionfruit Tea</h3><p>A vibrant, tropical beverage that balances tart, tangy fruit notes with smooth, refreshing tea</p></div></article>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <span class="eyebrow">Features</span>
+    <div class="feature-stage">
+      <div class="art" data-img="features"><div class="machine" style="--w:min(150px,21vw)"></div></div>
+      <span class="badge b-tall">3.5 ft tall</span>
+      <span class="badge b-ui">Sleek interface</span>
+      <span class="badge b-pay">Tap to pay</span>
+      <span class="badge b-60">60-second dispensing</span>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <span class="eyebrow">How it works</span>
+    <h2 class="h2">3 steps. 60 seconds.</h2>
+    <div class="hiw-img" aria-live="polite">
+      <div class="slide on" data-img="step1"><div class="scene tap"><div class="machine"></div><div class="finger"></div></div></div>
+      <div class="slide" data-img="step2"><div class="scene pour"><div class="glass"></div><div class="pile"></div><i class="pearl" style="left:44%"></i><i class="pearl" style="left:52%;animation-delay:.6s"></i><i class="pearl" style="left:48%;animation-delay:1.2s"></i></div></div>
+      <div class="slide" data-img="step3"><div class="scene grab"><div class="win"><div class="cup"></div></div></div></div>
+    </div>
+    <div class="steps" role="tablist" aria-label="Steps">
+      <span class="pill" id="pill"></span>
+      <button class="step on" role="tab" aria-selected="true">Step 1: Choose &amp; Customize</button>
+      <button class="step" role="tab" aria-selected="false">Step 2: Wait 60 seconds</button>
+      <button class="step" role="tab" aria-selected="false">Step 3: Grab &amp; Go!</button>
+    </div>
+  </section>
+
+  <section class="section" id="partner" style="max-width:1040px">
+    <span class="eyebrow">Partner with us</span>
+    <div class="marquee"><div class="track" id="track"></div></div>
+    <div class="panel">
+      <h2>Get more info about setting up a BobaBud at a location!</h2>
+      <form class="form" id="form" novalidate>
+        <label class="f" for="f-name">Name<input id="f-name" type="text" autocomplete="name" required></label>
+        <label class="f" for="f-email">Email<input id="f-email" type="email" autocomplete="email" required></label>
+        <label class="f" for="f-phone">Phone<input id="f-phone" type="tel" autocomplete="tel"></label>
+        <label class="f" for="f-company">Company<input id="f-company" type="text" autocomplete="organization"></label>
+        <label class="check" for="f-opt"><input id="f-opt" type="checkbox"> Opt in to receive news and updates.</label>
+        <button class="btn" type="submit">Learn More</button>
+        <p class="msg" id="msg" role="status"></p>
+        <div class="thanks"><strong>Thanks for reaching out!</strong><span id="thanks-txt">We'll be in touch about bringing a BobaBud to your location.</span><button type="button" class="btn" id="again" style="margin-top:6px">Send another</button></div>
+      </form>
+      <div class="faqs" id="faqs"></div>
+    </div>
+  </section>
+
+  <section class="peek" id="peek">
+    <span class="eyebrow">Sneak peek</span>
+    <div class="rows" id="rows"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="foot-cols">
+      <div><h4>Product</h4><ul><li><a href="#menu">Menu</a></li><li><a href="#features">Features</a></li><li><a href="#how">How it Works</a></li><li><a href="#partner">Partner with Us</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="#partner">Get in Touch</a></li></ul></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <a href="#top" class="logo" aria-label="Back to top"><img src="img/logo-color.png" alt="bobabud" class="logo-img" width="97" height="22"></a>
+      <p class="copy">Copyright © 2026 BobaBud Technologies Inc.<br>All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Drop real photo URLs (or data: URIs / published file paths) here to replace the illustrations. */
+const IMAGES = { hero:"img/hero.jpg", menu1:"img/pearl.jpg", menu2:"img/brown-sugar.jpg", menu3:"img/passionfruit.jpg", features:"img/features.jpg", step1:"img/step1.jpg", step2:"img/step2.mp4", step3:"img/step3.jpg" };
+for (const [k,src] of Object.entries(IMAGES)) {
+  if (!src) continue;
+  document.querySelectorAll(`[data-img="${k}"]`).forEach(el => {
+    const isVid = /\.mp4$/i.test(src);
+    el.innerHTML = isVid ? `<video class="photo" src="${src}" poster="${src.replace(/\.mp4$/i,"-poster.jpg")}" autoplay muted loop playsinline preload="auto"></video>` : `<img class="photo" src="${src}" alt="">`;
+  });
+}
+
+/* Mobile nav */
+const nav = document.getElementById('nav'), burger = document.getElementById('burger');
+burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); });
+document.querySelectorAll('#mm a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); burger.setAttribute('aria-expanded', false); }));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') nav.classList.remove('open'); });
+
+/* Active nav link on scroll */
+const links = [...document.querySelectorAll('.nav-links a.link')];
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+}), { rootMargin: '-45% 0px -50% 0px' });
+['menu','features','how','partner'].forEach(id => io.observe(document.getElementById(id)));
+
+/* How it works: hover / focus / click switches image, sliding highlight */
+const steps = [...document.querySelectorAll('.step')], slides = [...document.querySelectorAll('.hiw-img .slide')], pill = document.getElementById('pill');
+function setStep(i){
+  steps.forEach((s,j)=>{ s.classList.toggle('on', j===i); s.setAttribute('aria-selected', j===i); });
+  slides.forEach((s,j)=>s.classList.toggle('on', j===i));
+  pill.style.transform = `translateY(${i*50}px)`;
+  const v = slides[i].querySelector('video'); if (v) { try { v.currentTime = 0; v.play().catch(()=>{}); } catch(e){} }
+}
+steps.forEach((s,i)=>{ ['mouseenter','focus','click'].forEach(ev => s.addEventListener(ev, () => setStep(i))); });
+document.querySelector('.steps').addEventListener('keydown', e => {
+  const i = steps.findIndex(s => s.classList.contains('on'));
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); steps[(i+1)%3].focus(); }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); steps[(i+2)%3].focus(); }
+});
+
+/* Partner marquee */
+const places = ['Gas Stations','Cafes & Restaurants','Universities','Offices','Museums','Community Centres','Malls & Shopping Centres','Leisure Centres'];
+const tilts = [-2,3,-4,2,-3,4,-1,3];
+const one = places.map((p,i)=>`<span class="place" style="--r:${tilts[i]}deg">${p.replace('&','&amp;')}</span>`).join('');
+document.getElementById('track').innerHTML = one + one + one + one;
+
+/* FAQs (multiple can stay open, like the original) */
+const faqs = [
+  ['How much are the overhead costs?','BobaBud partners have no overheads, restocking is managed by BobaBud.'],
+  ['How much upkeep is required?','With 99% uptime, minimal maintenance is required. Only restocking is needed which is performed by BobaBud.'],
+  ['How big is the BobaBud machine?','Having a height of 4 ft and width of 2ft, BobaBud fits in any space of your liking'],
+  ['Do I have to advertise BobaBud as well?','BobaBuds will be placed in high-traffic locations, meaning that you have little to no marketing costs']
+];
+document.getElementById('faqs').innerHTML = faqs.map(([q,a],i)=>`
+  <div class="faq"><button aria-expanded="false" aria-controls="fa${i}" id="fq${i}">${q}<span class="ico" aria-hidden="true"></span></button>
+  <div class="ans" id="fa${i}" role="region" aria-labelledby="fq${i}"><div><p>${a}</p></div></div></div>`).join('');
+document.querySelectorAll('.faq button').forEach(b => b.addEventListener('click', () => {
+  const f = b.parentElement, o = f.classList.toggle('open'); b.setAttribute('aria-expanded', o);
+}));
+
+/* Form */
+const form = document.getElementById('form'), msg = document.getElementById('msg');
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const name = form.querySelector('#f-name'), email = form.querySelector('#f-email');
+  [name,email].forEach(i => i.classList.remove('err'));
+  if (!name.value.trim()) { name.classList.add('err'); msg.textContent = 'Add your name so we know who to reach.'; name.focus(); return; }
+  if (!/^\S+@\S+\.\S+$/.test(email.value)) { email.classList.add('err'); msg.textContent = 'Enter an email like you@company.com.'; email.focus(); return; }
+  msg.textContent = '';
+  document.getElementById('thanks-txt').textContent = `Thanks ${name.value.trim().split(' ')[0]}, we'll email ${email.value} about bringing a BobaBud to your location.`;
+  form.classList.add('sent');
+});
+document.getElementById('again').addEventListener('click', () => { form.reset(); form.classList.remove('sent'); });
+form.querySelectorAll('input').forEach(i => i.addEventListener('input', () => { i.classList.remove('err'); msg.textContent=''; }));
+
+/* Sneak peek gallery: three rows drifting in alternating directions */
+const rowsData = [[1,2,3],[4,5,6],[7,8,9]].map(r => r.map(n => `<img class="photo" src="img/peek${n}.jpg" alt="">`));
+const rowClass = ['', 'rev', 'slow'];
+const rowOffset = [0, 60, -40];
+document.getElementById('rows').innerHTML = rowsData.map((r,i) => {
+  const tiles = Array(5).fill(r).flat().map(t => `<div class="tile">${t}</div>`).join('');
+  return `<div class="row ${rowClass[i]}" style="margin-left:${rowOffset[i]}px">${tiles}${tiles}</div>`;
+}).join('');
+</script>
+
+</body>
+</html>
