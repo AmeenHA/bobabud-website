@@ -1,0 +1,32 @@
+# Merges every push to a claude/* branch into main.
+# Netlify deploys main to production, so Claude's edits go live automatically.
+name: Claude auto-deploy
+
+on:
+  push:
+    branches:
+      - "claude/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: claude-auto-deploy
+  cancel-in-progress: false
+
+jobs:
+  merge-to-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Merge ${{ github.ref_name }} into main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898+github-actions[bot]@users.noreply.github.com"
+          git fetch origin "${{ github.ref_name }}"
+          git merge --no-edit "origin/${{ github.ref_name }}"
+          git push origin main
